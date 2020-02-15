@@ -12,7 +12,7 @@ import (
 	"os"
 	"time"
 
-	"github.com/KyleBanks/dockerstats"
+	"github.com/lucasmdrs/dockerstats"
 )
 
 func main() {
@@ -28,7 +28,7 @@ func main() {
 	defer f.Close()
 	log.Printf("Writing output to '%v'", f.Name())
 
-	m := dockerstats.NewMonitor()
+	m := dockerstats.NewMonitor(dockerstats.DefaultCommunicator)
 	for res := range m.Stream {
 		if res.Error != nil {
 			panic(err)

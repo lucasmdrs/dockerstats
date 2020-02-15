@@ -6,16 +6,17 @@ import (
 
 // Stats contains the statistics of a currently running Docker container.
 type Stats struct {
-	Container string      `json:"container"`
-	Memory    MemoryStats `json:"memory"`
-	CPU       string      `json:"cpu"`
-	IO        IOStats     `json:"io"`
-	PIDs      int         `json:"pids"`
+	ContainerID   string      `json:"container_id"`
+	ContainerName string      `json:"container_name"`
+	Memory        MemoryStats `json:"memory"`
+	CPU           string      `json:"cpu"`
+	IO            IOStats     `json:"io"`
+	PIDs          int         `json:"pids"`
 }
 
 // String returns a human-readable string containing the details of a Stats value.
 func (s Stats) String() string {
-	return fmt.Sprintf("Container=%v Memory={%v} CPU=%v IO={%v} PIDs=%v", s.Container, s.Memory, s.CPU, s.IO, s.PIDs)
+	return fmt.Sprintf("ContainerID=%v ContainerName=%v Memory={%v} CPU=%v IO={%v} PIDs=%v", s.ContainerID, s.ContainerName, s.Memory, s.CPU, s.IO, s.PIDs)
 }
 
 // MemoryStats contains the statistics of a running Docker container related to

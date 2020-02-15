@@ -10,10 +10,10 @@ func TestNewMonitor(t *testing.T) {
 	maxRecieves := 5
 	var receiveCount int
 
-	m := NewMonitor()
-	m.Comm = testComm{func() ([]Stats, error) {
+	m := NewMonitor(DefaultCommunicator)
+	m.Comm = testComm{func(...string) ([]Stats, error) {
 		s := []Stats{
-			{Container: strconv.Itoa(receiveCount)},
+			{ContainerID: strconv.Itoa(receiveCount)},
 		}
 		receiveCount++
 		return s, nil
@@ -28,8 +28,8 @@ func TestNewMonitor(t *testing.T) {
 
 		if len(s.Stats) != 1 {
 			t.Fatalf("Unexpected number of stats recieved on iteration %v, expected=1, got=%v.\n%v", i, len(s.Stats), s)
-		} else if s.Stats[0].Container != strconv.Itoa(i) {
-			t.Fatalf("Unexpected container stats recieved on iteration %v, expected=%v, got=%v.\n%v", i, i, s.Stats[0].Container, s)
+		} else if s.Stats[0].ContainerID != strconv.Itoa(i) {
+			t.Fatalf("Unexpected container stats recieved on iteration %v, expected=%v, got=%v.\n%v", i, i, s.Stats[0].ContainerID, s)
 		}
 	}
 }
@@ -37,9 +37,9 @@ func TestNewMonitor(t *testing.T) {
 func TestMonitor_Stop(t *testing.T) {
 	var mu sync.Mutex
 
-	m := NewMonitor()
+	m := NewMonitor(DefaultCommunicator)
 	var callCount int
-	m.Comm = testComm{func() ([]Stats, error) {
+	m.Comm = testComm{func(...string) ([]Stats, error) {
 		mu.Lock()
 		callCount++
 		mu.Unlock()

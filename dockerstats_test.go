@@ -15,12 +15,12 @@ func TestCurrent(t *testing.T) {
 
 	for _, tt := range tests {
 		defaultComm := DefaultCommunicator
-		DefaultCommunicator = testComm{func() ([]Stats, error) {
-			return tt.expected.Stats, tt.expected.Error
-		}}
+		DefaultCommunicator = testComm{
+			func(...string) ([]Stats, error) { return tt.expected.Stats, tt.expected.Error },
+		}
 		defer func() { DefaultCommunicator = defaultComm }()
 
-		s, err := Current()
+		s, err := Current(DefaultCommunicator)
 		if err != tt.expected.Error {
 			t.Fatalf("Unexpected Error, expected=%v, got=%v", tt.expected.Error, err)
 		}

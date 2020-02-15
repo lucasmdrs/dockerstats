@@ -19,7 +19,7 @@ function:
     }
 
     for _, s := range stats {
-    	fmt.Println(s.Container) // 9f2656020722
+    	fmt.Println(s.ContainerID) // 9f2656020722
     	fmt.Println(s.Memory) // {Raw=221.7 MiB / 7.787 GiB, Percent=2.78%}
     	fmt.Println(s.CPU) // 99.79%
     }
@@ -35,7 +35,7 @@ stream of Docker container stats, available on the Monitor's `Stream` channel:
     	}
 
     	for _, s := range res.Stats {
-    		fmt.Println(s.Container) // 9f2656020722
+    		fmt.Println(s.ContainerID) // 9f2656020722
     	}
     }
 
@@ -177,11 +177,12 @@ Stop tells the monitor to stop streaming Docker container statistics.
 
 ```go
 type Stats struct {
-	Container string      `json:"container"`
-	Memory    MemoryStats `json:"memory"`
-	CPU       string      `json:"cpu"`
-	IO        IOStats     `json:"io"`
-	PIDs      int         `json:"pids"`
+	ContainerID   string      `json:"container_id"`
+	ContainerName string      `json:"container_name"`
+	Memory        MemoryStats `json:"memory"`
+	CPU           string      `json:"cpu"`
+	IO            IOStats     `json:"io"`
+	PIDs          int         `json:"pids"`
 }
 ```
 
